@@ -1,2 +1,2 @@
-# 2D-RPG
-2D-RPG Game
+# 2D Open World RPG
+2D Open World RPG
