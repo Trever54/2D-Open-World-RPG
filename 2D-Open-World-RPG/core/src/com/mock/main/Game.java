@@ -9,9 +9,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.mock.entities.Player;
 import com.mock.handlers.GameInputProcessor;
 import com.mock.handlers.GameKeys;
+import com.mock.handlers.GameStateManager;
+import com.mock.handlers.MyContactListener;
+import com.mock.handlers.TiledMapHandler;
 
 public class Game extends ApplicationAdapter {
     
@@ -19,18 +29,12 @@ public class Game extends ApplicationAdapter {
     public static final float STEP = 1 / 60f;
     public static int V_WIDTH;
     public static int V_HEIGHT;
-    public float accum;  
+    private float accum;
 	private SpriteBatch sb;
-	
 	public static OrthographicCamera cam;
-	
-	private Player player;
-	
-	private Sprite world;
-	
+	private GameStateManager gsm;
 	private FPSLogger FPS;
 	
-
 	@Override
 	public void create() {
 	    V_WIDTH = Gdx.graphics.getWidth();
@@ -39,40 +43,25 @@ public class Game extends ApplicationAdapter {
 	    FPS = new FPSLogger();
 		sb = new SpriteBatch();
 		cam = new OrthographicCamera(V_WIDTH, V_HEIGHT);
-		
-		world = new Sprite(new Texture("testWorld.png"));
-		world.setPosition(- V_WIDTH / 2, - V_HEIGHT / 2);
-		
-		player = new Player(new Sprite(new Texture("player.png")), 0, 0, 25, 25);
+		gsm = new GameStateManager(this);
 	}
 
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		FPS.log(); // Prints the current FPS
-		sb.setProjectionMatrix(cam.combined); // set up camera
-		update(); // updates everything in the game
-		
-		// testing batch
-		sb.begin();
-		world.draw(sb);
-		sb.end();
-		
-		// render objects
-		player.render(sb);	
-	}
-	
-	public void update() {
-	    player.update();   // also updates camera currently
-	    GameKeys.update();
-        cam.update();
+	    FPS.log();
+	    accum += Gdx.graphics.getDeltaTime();
+	    while (accum >= STEP) {
+	        accum -= STEP;
+	        gsm.update(STEP);
+	        gsm.render();
+	    }
 	}
 	
 	@Override
 	public void dispose() {
-	    world.getTexture().dispose();
 	    sb.dispose();
-	    player.dispose();
 	}
+	
+	public SpriteBatch getSpriteBatch() { return sb; }
+	public OrthographicCamera getCamera() { return cam; }
 }
