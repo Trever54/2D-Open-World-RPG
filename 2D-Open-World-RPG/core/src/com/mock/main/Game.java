@@ -3,35 +3,30 @@ package com.mock.main;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
-import com.mock.entities.Player;
 import com.mock.handlers.GameInputProcessor;
-import com.mock.handlers.GameKeys;
 import com.mock.handlers.GameStateManager;
-import com.mock.handlers.MyContactListener;
-import com.mock.handlers.TiledMapHandler;
+
+/* TODO:
+ * 1. Read in a sprite sheet for player
+ * 2. render player from sprite sheet
+ * 3. render player with animation from sprite sheet
+ * 
+ * 4. Change to 64-bit tiles and 32 bit character?
+ */
 
 public class Game extends ApplicationAdapter {
     
     public static final String TITLE = "2D-Open-World-RPG";
     public static final float STEP = 1 / 60f;
+    public static final int BIT_SIZE = 32;
+    public static final float ZOOM = 1;
     public static int V_WIDTH;
     public static int V_HEIGHT;
     private float accum;
+    private OrthographicCamera cam;
 	private SpriteBatch sb;
-	public static OrthographicCamera cam;
 	private GameStateManager gsm;
 	private FPSLogger FPS;
 	
@@ -42,7 +37,7 @@ public class Game extends ApplicationAdapter {
 	    Gdx.input.setInputProcessor(new GameInputProcessor());
 	    FPS = new FPSLogger();
 		sb = new SpriteBatch();
-		cam = new OrthographicCamera(V_WIDTH, V_HEIGHT);
+		cam = new OrthographicCamera(V_WIDTH / ZOOM, V_HEIGHT / ZOOM);
 		gsm = new GameStateManager(this);
 	}
 
