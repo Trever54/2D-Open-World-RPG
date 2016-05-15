@@ -8,14 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mock.handlers.GameInputProcessor;
 import com.mock.handlers.GameStateManager;
 
-/* TODO:
- * 1. Read in a sprite sheet for player
- * 2. render player from sprite sheet
- * 3. render player with animation from sprite sheet
- * 
- * 4. Change to 64-bit tiles and 32 bit character?
- */
-
 public class Game extends ApplicationAdapter {
     
     public static final String TITLE = "2D-Open-World-RPG";

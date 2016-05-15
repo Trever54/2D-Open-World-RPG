@@ -21,9 +21,7 @@ public class MyContactListener implements ContactListener {
             playerBody = contact.getFixtureB().getBody();
             otherBody = contact.getFixtureA().getBody();
         }
-        
-        
-        
+
         System.out.println("CONTACT!");
     }
 

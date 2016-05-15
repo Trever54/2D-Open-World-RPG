@@ -7,7 +7,7 @@ import com.mock.states.topDownState;
 public class mainWorld extends topDownState{ 
     
     public mainWorld(GameStateManager gsm) {
-        super(gsm, "collisionTest.tmx");
+        super(gsm, "island.tmx");
         player.setPosition(new Vector2(300, 300));
         
         // set animations

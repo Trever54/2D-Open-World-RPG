@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-up" width="10" height="10" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="variousTiles" tilewidth="32" tileheight="32" tilecount="128">
+  <image source="variousTiles.png" width="256" height="512"/>
+ </tileset>
+ <layer name="Terrain Layer" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYmBgYBrFgwYDAJ9gAMk=
+  </data>
+ </layer>
+ <layer name="Decoration Layer" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFgwkAAAGQAAE=
+  </data>
+ </layer>
+ <layer name="Collision Layer" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF2EA6CeqIUUuseQCAtAGd
+  </data>
+ </layer>
+ <layer name="Top Layer" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFgwkAAAGQAAE=
+  </data>
+ </layer>
+</map>
