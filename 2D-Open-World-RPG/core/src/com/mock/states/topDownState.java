@@ -24,7 +24,7 @@ import com.mock.main.Game;
 
 public class topDownState extends GameState {
     
-    public static boolean debug = true;
+    public static boolean debug = false;
     
     private Box2DDebugRenderer b2dr;
     private OrthographicCamera b2dCam;
@@ -82,13 +82,14 @@ public class topDownState extends GameState {
     private Player createPlayer() {
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();
-        PolygonShape shape = new PolygonShape(); 
+        PolygonShape shape = new PolygonShape();
         bdef.type = BodyType.DynamicBody;
         Body body = world.createBody(bdef);
         shape.setAsBox((BIT_SIZE / 2) / PPM, (BIT_SIZE / 2) / PPM);
+        // shape.setRadius((BIT_SIZE / 2) / PPM);
         fdef.shape = shape;
         body.createFixture(fdef);
         body.setUserData("player");
-        return new Player(body, new Sprite(new Texture("testPlayer.png")));
+        return new Player(body, new Sprite(new Texture("testPlayerAnimation.png")));
     }
 }

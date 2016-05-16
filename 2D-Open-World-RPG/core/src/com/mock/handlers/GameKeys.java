@@ -31,6 +31,10 @@ public class GameKeys {
         return keys[keycode];
     }
     
+    public static boolean isUp(int keycode) {
+        return !keys[keycode];
+    }
+    
     public static boolean isPressed(int keycode) {
         return keys[keycode] && !pkeys[keycode];
     }
