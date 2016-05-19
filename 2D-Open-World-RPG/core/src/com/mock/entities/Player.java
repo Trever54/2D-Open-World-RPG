@@ -1,25 +1,17 @@
 package com.mock.entities;
 
-import static com.mock.handlers.B2DVars.PPM;
 import static com.mock.main.Game.BIT_SIZE;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mock.handlers.GameKeys;
 
-public class Player extends Entity {
+public class Player extends AnimatedEntity {
     
-    private Texture img;
     private Animation downAnimation;
     private Animation upAnimation;
     private Animation leftAnimation;
@@ -29,20 +21,19 @@ public class Player extends Entity {
     private Animation leftStanding;
     private Animation rightStanding;
     private Animation currentAnimation;
-    private float elapsedTime;
+    private boolean moving;
     
     private float speed;
     private float dx;
     private float dy;
     
-    public Player(Body body, Sprite sprite) {
-        super(body, sprite, BIT_SIZE, BIT_SIZE);
+    public Player(Body body, Texture spriteSheet) {
+        super(body, spriteSheet, BIT_SIZE, BIT_SIZE);
         this.speed = 2f;
         this.dx = 0;
         this.dy = 0;
         // ANIMATION STUFF
-        img = new Texture("testPlayerAnimation.png");
-        TextureRegion[][] tmpFrames = TextureRegion.split(img, BIT_SIZE, BIT_SIZE);
+        TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, BIT_SIZE, BIT_SIZE);
         TextureRegion[] downFrames = new TextureRegion[4];
         TextureRegion[] upFrames = new TextureRegion[4];
         TextureRegion[] leftFrames = new TextureRegion[4];
@@ -72,59 +63,55 @@ public class Player extends Entity {
         leftStanding = new Animation(1f, tmpFrames[1][1]);
         rightStanding = new Animation(1f, tmpFrames[2][1]);
         currentAnimation = downStanding;
+        moving = false;
     }
     
     public void render(SpriteBatch sb) {
-        // super.render(sb);
-        sb.begin();
-        sb.draw(currentAnimation.getKeyFrame(elapsedTime, true), 
-                body.getPosition().x * PPM - (width / 2), 
-                body.getPosition().y * PPM - (height / 2), 
-                width, height);
-        sb.end();
+        super.render(sb, currentAnimation);
     }
     
     public void update(float dt) {
-        elapsedTime += Gdx.graphics.getDeltaTime();
-        
-        if (GameKeys.isDown(GameKeys.LEFT)) { 
+        super.update(dt);
+        if (GameKeys.isDown(GameKeys.LEFT) && !moving) { 
             dx = -speed; 
             currentAnimation = leftAnimation;
+            moving = true;
         } 
-        else if (GameKeys.isDown(GameKeys.RIGHT)) { 
+        if (GameKeys.isDown(GameKeys.RIGHT) && !moving) { 
             dx = speed;
             currentAnimation = rightAnimation;
+            moving = true;
         }
-        else { 
+        if (GameKeys.isUp(GameKeys.RIGHT) && currentAnimation.equals(rightAnimation)) { 
             dx = 0;
+            currentAnimation = rightStanding;
+            moving = false;
         }
-        
-        if (GameKeys.isDown(GameKeys.UP)) { 
+        if (GameKeys.isUp(GameKeys.LEFT) && currentAnimation.equals(leftAnimation)) { 
+            dx = 0;
+            currentAnimation = leftStanding;
+            moving = false;
+        }
+        if (GameKeys.isDown(GameKeys.UP) && !moving) { 
             dy = speed; 
             currentAnimation = upAnimation;
+            moving = true;
         } 
-        else if (GameKeys.isDown(GameKeys.DOWN)) { 
+        if (GameKeys.isDown(GameKeys.DOWN) && !moving) { 
             dy = -speed;
             currentAnimation = downAnimation;
+            moving = true;
         } 
-        else { 
+        if (GameKeys.isUp(GameKeys.DOWN) && currentAnimation.equals(downAnimation)) { 
             dy = 0; 
-        }
-        
-        if (GameKeys.isUp(GameKeys.DOWN) && currentAnimation.equals(downAnimation)) {
             currentAnimation = downStanding;
+            moving = false;
         }
-        if (GameKeys.isUp(GameKeys.UP) && currentAnimation.equals(upAnimation)) {
+        if (GameKeys.isUp(GameKeys.UP) && currentAnimation.equals(upAnimation)) { 
+            dy = 0; 
             currentAnimation = upStanding;
+            moving = false;
         }
-        if (GameKeys.isUp(GameKeys.LEFT) && currentAnimation.equals(leftAnimation)) {
-            currentAnimation = leftStanding;
-        }
-        if (GameKeys.isUp(GameKeys.RIGHT) && currentAnimation.equals(rightAnimation)) {
-            currentAnimation = rightStanding;
-        }
-        
-        
         body.setLinearVelocity(new Vector2(dx, dy));
     }
 }

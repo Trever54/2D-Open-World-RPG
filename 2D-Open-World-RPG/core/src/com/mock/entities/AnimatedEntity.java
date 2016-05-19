@@ -2,6 +2,9 @@ package com.mock.entities;
 
 import static com.mock.handlers.B2DVars.PPM;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -9,22 +12,24 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public class AnimatedEntity {
 
+    protected Texture spriteSheet;
     protected Body body;
     protected Sprite sprite;
     protected float width;
     protected float height;
     
+    private float elapsedTime;
     
-    public AnimatedEntity(Body body, Sprite sprite, float width, float height) {
+    public AnimatedEntity(Body body, Texture spriteSheet, float width, float height) {
         this.body = body;
-        this.sprite = sprite;
+        this.spriteSheet = spriteSheet;
         this.width = width;
         this.height = width;
     }
     
-    public void render(SpriteBatch sb) { 
+    public void render(SpriteBatch sb, Animation currentAnimation) { 
         sb.begin();
-        sb.draw(sprite, 
+        sb.draw(currentAnimation.getKeyFrame(elapsedTime, true), 
                 body.getPosition().x * PPM - (width / 2), 
                 body.getPosition().y * PPM - (height / 2), 
                 width, height);
@@ -32,10 +37,7 @@ public class AnimatedEntity {
     }
     
     public void update(float dt) {
-        // ANIMATION HERE
-        
-        //posX = body.getPosition().x * PPM - (width / 2);
-        //posY = body.getPosition().y * PPM - (height / 2);
+        elapsedTime += Gdx.graphics.getDeltaTime();
     }
     
     public void dispose() {

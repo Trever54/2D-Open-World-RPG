@@ -15,7 +15,4 @@ public class mainWorld extends topDownState{
         
         
     }
-    
-    
-    
 }

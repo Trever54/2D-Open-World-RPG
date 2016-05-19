@@ -13,7 +13,7 @@ public class Game extends ApplicationAdapter {
     public static final String TITLE = "2D-Open-World-RPG";
     public static final float STEP = 1 / 60f;
     public static final int BIT_SIZE = 32;
-    public static final float ZOOM = 1;
+    public static final float ZOOM = 2;
     public static int V_WIDTH;
     public static int V_HEIGHT;
     private float accum;

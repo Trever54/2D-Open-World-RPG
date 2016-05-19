@@ -1,13 +1,12 @@
 package com.mock.states;
 
-import static com.mock.main.Game.BIT_SIZE;
 import static com.mock.handlers.B2DVars.PPM;
+import static com.mock.main.Game.BIT_SIZE;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -20,6 +19,7 @@ import com.mock.handlers.GameKeys;
 import com.mock.handlers.GameStateManager;
 import com.mock.handlers.MyContactListener;
 import com.mock.handlers.TiledMapHandler;
+import com.mock.hud.HUDManager;
 import com.mock.main.Game;
 
 public class topDownState extends GameState {
@@ -29,8 +29,9 @@ public class topDownState extends GameState {
     private Box2DDebugRenderer b2dr;
     private OrthographicCamera b2dCam;
     private World world;
-    private MyContactListener contactListener;  
+    private MyContactListener contactListener;
     private TiledMapHandler tmh;
+    private HUDManager hudManager;
     public Player player;
 
     public topDownState(GameStateManager gsm, String tiledPath) {
@@ -42,7 +43,8 @@ public class topDownState extends GameState {
         tmh = new TiledMapHandler(tiledPath);
         world = tmh.getWorld();
         world.setContactListener(contactListener);
-        player = createPlayer();   
+        player = createPlayer();
+        hudManager = new HUDManager();
     }
 
     public void update(float dt) {
@@ -50,10 +52,11 @@ public class topDownState extends GameState {
         world.step(dt, 6, 2);
         player.update(dt);
         cam.position.set(
-                player.getPosition().x + (player.getWidth() / 2),
-                player.getPosition().y + (player.getHeight() / 2),
+                player.getPosition().x,
+                player.getPosition().y,
                 0);
         cam.update();
+        hudManager.update(dt);
     }
     
     public void render() {
@@ -67,7 +70,7 @@ public class topDownState extends GameState {
         player.render(sb);  
         tmh.renderCollisionLayer(sb, cam);
         tmh.renderTopLayer(sb, cam);
-        
+        hudManager.render();
         // Box2D Debugging stuff
         if (debug) {
             b2dr.render(world, b2dCam.combined);
@@ -77,6 +80,8 @@ public class topDownState extends GameState {
     public void dispose() {
         world.dispose();
         player.dispose();
+        // uim.dispose();
+        tmh.dispose();
     }
     
     private Player createPlayer() {
@@ -86,10 +91,9 @@ public class topDownState extends GameState {
         bdef.type = BodyType.DynamicBody;
         Body body = world.createBody(bdef);
         shape.setAsBox((BIT_SIZE / 2) / PPM, (BIT_SIZE / 2) / PPM);
-        // shape.setRadius((BIT_SIZE / 2) / PPM);
         fdef.shape = shape;
         body.createFixture(fdef);
         body.setUserData("player");
-        return new Player(body, new Sprite(new Texture("testPlayerAnimation.png")));
+        return new Player(body, new Texture("testPlayerAnimation.png"));
     }
 }

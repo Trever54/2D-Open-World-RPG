@@ -35,10 +35,7 @@ public class Entity {
     }
     
     public void update(float dt) {
-        // ANIMATION HERE
         
-        //posX = body.getPosition().x * PPM - (width / 2);
-        //posY = body.getPosition().y * PPM - (height / 2);
     }
     
     public void dispose() {

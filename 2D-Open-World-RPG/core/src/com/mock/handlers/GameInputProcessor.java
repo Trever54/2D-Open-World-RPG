@@ -2,6 +2,10 @@ package com.mock.handlers;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.mock.hud.DirectionHUD;
+import com.mock.main.Game;
 
 public class GameInputProcessor implements InputProcessor {
     
@@ -10,17 +14,49 @@ public class GameInputProcessor implements InputProcessor {
     //----------------------------------------------------------------
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+        screenY = Game.V_HEIGHT - screenY; // repositions y to have a 0 value at the bottom left corner
+        if (DirectionHUD.upButton.getBoundingRectangle().contains(screenX, screenY) && pointer == 0) {
+            GameKeys.setKey(GameKeys.UP, true);
+        }
+        if (DirectionHUD.downButton.getBoundingRectangle().contains(screenX, screenY) && pointer == 0) {
+            GameKeys.setKey(GameKeys.DOWN, true);
+        }
+        if (DirectionHUD.leftButton.getBoundingRectangle().contains(screenX, screenY) && pointer == 0) {
+            GameKeys.setKey(GameKeys.LEFT, true);
+        }
+        if (DirectionHUD.rightButton.getBoundingRectangle().contains(screenX, screenY) && pointer == 0) {
+            GameKeys.setKey(GameKeys.RIGHT, true);
+        }
+        return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) { 
-        return false; 
+        if (pointer == 0) {
+            GameKeys.setKey(GameKeys.UP, false);
+            GameKeys.setKey(GameKeys.DOWN, false);
+            GameKeys.setKey(GameKeys.LEFT, false);
+            GameKeys.setKey(GameKeys.RIGHT, false);
+        }
+        return true; 
     }
      
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
+        screenY = Game.V_HEIGHT - screenY; // repositions y to have a 0 value at the bottom left corner
+        if (!DirectionHUD.upButton.getBoundingRectangle().contains(screenX, screenY) && pointer == 0) {
+            GameKeys.setKey(GameKeys.UP, false);
+        }
+        if (!DirectionHUD.downButton.getBoundingRectangle().contains(screenX, screenY) && pointer == 0) {
+            GameKeys.setKey(GameKeys.DOWN, false);
+        }
+        if (!DirectionHUD.leftButton.getBoundingRectangle().contains(screenX, screenY) && pointer == 0) {
+            GameKeys.setKey(GameKeys.LEFT, false);
+        }
+        if (!DirectionHUD.rightButton.getBoundingRectangle().contains(screenX, screenY) && pointer == 0) {
+            GameKeys.setKey(GameKeys.RIGHT, false);
+        }
+        return true;
     }
 
     //----------------------------------------------------------------
