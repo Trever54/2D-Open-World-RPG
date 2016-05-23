@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -22,9 +23,10 @@ import com.mock.handlers.TiledMapHandler;
 import com.mock.hud.HUDManager;
 import com.mock.main.Game;
 
-public class topDownState extends GameState {
+public class TopDownState extends GameState {
     
     public static boolean debug = false;
+    public static boolean changeState = false;
     
     private Box2DDebugRenderer b2dr;
     private OrthographicCamera b2dCam;
@@ -34,7 +36,7 @@ public class topDownState extends GameState {
     private HUDManager hudManager;
     public Player player;
 
-    public topDownState(GameStateManager gsm, String tiledPath) {
+    public TopDownState(GameStateManager gsm, String tiledPath) {
         super(gsm);
         b2dr = new Box2DDebugRenderer();
         b2dCam = new OrthographicCamera();
@@ -48,6 +50,10 @@ public class topDownState extends GameState {
     }
 
     public void update(float dt) {
+        if (changeState) {
+            gsm.setState(1);
+            changeState = false;
+        }
         GameKeys.update();
         world.step(dt, 6, 2);
         player.update(dt);
@@ -80,7 +86,7 @@ public class topDownState extends GameState {
     public void dispose() {
         world.dispose();
         player.dispose();
-        // uim.dispose();
+        hudManager.dispose();
         tmh.dispose();
     }
     
@@ -95,5 +101,25 @@ public class topDownState extends GameState {
         body.createFixture(fdef);
         body.setUserData("player");
         return new Player(body, new Texture("testPlayerAnimation.png"));
+    }
+    
+    protected void createChangeState(float cellX, float cellY, String state) {
+        BodyDef bdef = new BodyDef();
+        FixtureDef fdef = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+        bdef.type = BodyType.StaticBody;
+        Body body = world.createBody(bdef);
+        shape.setAsBox((BIT_SIZE / 2) / PPM, (BIT_SIZE / 2) / PPM);
+        body.setTransform(new Vector2(
+                ((cellX * BIT_SIZE) + (BIT_SIZE / 2)) / PPM, 
+                ((cellY * BIT_SIZE) + (BIT_SIZE / 2)) / PPM), 0);
+        fdef.shape = shape;
+        body.createFixture(fdef);
+        body.setUserData(state);
+    }
+    
+    public void changeState(int state) {
+        gsm.setState(state);
+        this.dispose();
     }
 }

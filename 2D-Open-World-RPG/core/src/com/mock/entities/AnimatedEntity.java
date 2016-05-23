@@ -14,7 +14,6 @@ public class AnimatedEntity {
 
     protected Texture spriteSheet;
     protected Body body;
-    protected Sprite sprite;
     protected float width;
     protected float height;
     
@@ -41,7 +40,7 @@ public class AnimatedEntity {
     }
     
     public void dispose() {
-        sprite.getTexture().dispose();
+        spriteSheet.dispose();
     }
     
     public Body getBody() {
