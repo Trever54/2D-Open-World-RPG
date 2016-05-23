@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-up" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="snow_on_stones" tilewidth="32" tileheight="32" tilecount="80">
+  <image source="snow_on_stones.png" width="320" height="256"/>
+ </tileset>
+ <tileset firstgid="81" name="SnowyTrees" tilewidth="32" tileheight="32" tilecount="49">
+  <image source="SnowyTrees.png" width="228" height="228"/>
+ </tileset>
+ <layer name="Terrain Layer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2DlSxFAMRVFvgyFjyBiyptn/whABAUWCmzK6ev8GJ5e/VXoqnbZtO0mSJB3oqlyXm3ILqKe7vu73uCv35aE8At6/u77u93gqz+WlvALev7s+wnu8lXN5B7w/oT76e0iSJEnK1X1DObIGwrft1X1DObIGwrftRbihHFUD4dsuQbihHFUD4dukTxPzM9nE/NxrUs9Nzc89pvVcen6u0HPTpPdcl0lZsIJpWZDOLOAxC5TMTGYxk1nMZB4zWZL+hzsiS/eOaD98170jdvcDUeeO2N0PYvWDJE3gbsfibsfibsfjbsfym/9hzrCYMyzmDI85IyrzlMU8ZTFP/+aI+WKeXs75wuJ84XG+KIX7PYv5y7Jq/pLnwor561xgWXUukK04FyT1I+9LK3JfYnFf4nFf+sk5zpI0xxN6K2mOp/RWyhxP6q0UKb0lSZIkSZMl3JOSpNyTvkzvr7R7UkJ/Jd2T0vorQVJ/SZIkaU0fhsNRhw==
+  </data>
+ </layer>
+ <layer name="Collision Layer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2KFSw1AQQNH+JMVQDMVQDMVQDOXPeRNVkYoyzeSKc2bWZCJW3n2bDXDpYcx2zOPaizB5GrMb87z2IkxexuzHvK69CJO3MYcx72svwuRjzHHM59qLMPkacxrzvfYiTH7GnMf8rrwHFP3n/tgttAvujxr3R4v7o8X90eL+aHF/tHhvb9G7LXq3Re+26N0Wvduid1v0bovebdG7LXq3Re+26N0Wvduid1v0bovebdG7LXq3Re+26N0Wvduid1v0bovebdG7LXq3Re+26N0Wvduid1v0bovebdG7LXq3Re+26N0Wvduid1v0bovebdG7LXq3Re+26N0Wvduid1v0bovebdG7LXq3Re+26N0Wvduid1v0bovebdG7LXq3Re+26N0Wvduid1v0bovebdG7LXq3Re+26N0Wvduid1v0bovebdG7Lbf07nbhXbitd3cL78L13t3P/Dv3jfu6pXcPC+/Cbb17XHgXrvfuaebfuW/c17XePc/8O/eN+/K+2+J9t+Wyd/8Aq2R/ig==
+  </data>
+ </layer>
+ <layer name="Top Layer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztyMdKBUEURdH6RXPOmNMzixH/3DPoUQ1eNw5KKNaCzeWeUgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD6sJAW01JabvAz33raSJtpq8HPfHtpPx2kwwZ/b1bSalqrtr86SafpLJ03+HuznXbSbrWVapvqOt2k2zRr8PfmaLjHI9tUj+kpPaeXBn9vLtJluqq2Um1TvaeP9Jm+Gvy9uUv36aHaSrXRxutw30Y22vge7s/IBvBffgGIu1ws
+  </data>
+ </layer>
+</map>

@@ -22,7 +22,6 @@ public class TiledMapHandler {
     private TiledMap tileMap;
     private OrthogonalTiledMapRenderer tmr;
     private TiledMapTileLayer terrainLayer;
-    private TiledMapTileLayer decorationLayer;
     private TiledMapTileLayer collisionLayer;
     private TiledMapTileLayer topLayer;
     private World world;
@@ -31,7 +30,6 @@ public class TiledMapHandler {
         tileMap = new TmxMapLoader().load(path);
         tmr = new OrthogonalTiledMapRenderer(tileMap);
         terrainLayer = (TiledMapTileLayer) tileMap.getLayers().get("Terrain Layer");
-        decorationLayer = (TiledMapTileLayer) tileMap.getLayers().get("Decoration Layer");
         collisionLayer = (TiledMapTileLayer) tileMap.getLayers().get("Collision Layer");
         topLayer = (TiledMapTileLayer) tileMap.getLayers().get("Top Layer");
         world = new World(new Vector2(0, 0), true);
@@ -47,13 +45,6 @@ public class TiledMapHandler {
         tmr.setView(cam);
         tmr.getBatch().begin();
         tmr.renderTileLayer(terrainLayer);
-        tmr.getBatch().end();
-    }
-    
-    public void renderDecorationLayer(SpriteBatch sb, OrthographicCamera cam) {
-        tmr.setView(cam);
-        tmr.getBatch().begin();
-        tmr.renderTileLayer(decorationLayer);
         tmr.getBatch().end();
     }
     

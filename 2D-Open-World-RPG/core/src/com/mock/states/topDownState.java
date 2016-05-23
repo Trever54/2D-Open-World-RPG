@@ -26,7 +26,6 @@ import com.mock.main.Game;
 public class TopDownState extends GameState {
     
     public static boolean debug = false;
-    public static boolean changeState = false;
     
     private Box2DDebugRenderer b2dr;
     private OrthographicCamera b2dCam;
@@ -40,7 +39,7 @@ public class TopDownState extends GameState {
         super(gsm);
         b2dr = new Box2DDebugRenderer();
         b2dCam = new OrthographicCamera();
-        b2dCam.setToOrtho(false, Game.V_WIDTH / PPM, Game.V_HEIGHT / PPM);
+        b2dCam.setToOrtho(false, (Game.V_WIDTH / PPM) / Game.ZOOM, (Game.V_HEIGHT / PPM) / Game.ZOOM);
         contactListener = new MyContactListener();
         tmh = new TiledMapHandler(tiledPath);
         world = tmh.getWorld();
@@ -50,10 +49,6 @@ public class TopDownState extends GameState {
     }
 
     public void update(float dt) {
-        if (changeState) {
-            gsm.setState(1);
-            changeState = false;
-        }
         GameKeys.update();
         world.step(dt, 6, 2);
         player.update(dt);
@@ -61,8 +56,9 @@ public class TopDownState extends GameState {
                 player.getPosition().x,
                 player.getPosition().y,
                 0);
-        cam.update();
         hudManager.update(dt);
+        cam.zoom = Game.ZOOM;
+        cam.update();
     }
     
     public void render() {
@@ -72,7 +68,6 @@ public class TopDownState extends GameState {
         
         // render objects
         tmh.renderTerrainLayer(sb, cam);
-        tmh.renderDecorationLayer(sb, cam);
         player.render(sb);  
         tmh.renderCollisionLayer(sb, cam);
         tmh.renderTopLayer(sb, cam);
@@ -100,7 +95,7 @@ public class TopDownState extends GameState {
         fdef.shape = shape;
         body.createFixture(fdef);
         body.setUserData("player");
-        return new Player(body, new Texture("testPlayerAnimation.png"));
+        return new Player(body, new Texture("player_sprite_sheet.png"));
     }
     
     protected void createChangeState(float cellX, float cellY, String state) {
@@ -116,10 +111,5 @@ public class TopDownState extends GameState {
         fdef.shape = shape;
         body.createFixture(fdef);
         body.setUserData(state);
-    }
-    
-    public void changeState(int state) {
-        gsm.setState(state);
-        this.dispose();
     }
 }

@@ -5,7 +5,6 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.mock.states.TopDownState;
 
 public class MyContactListener implements ContactListener {
 
@@ -23,12 +22,8 @@ public class MyContactListener implements ContactListener {
             otherBody = contact.getFixtureA().getBody();
         }
         if (otherBody.getUserData().equals("INSIDE_TP")) {
-            TopDownState.changeState = true;
             System.out.println("TEST");
         } 
-        if (otherBody.getUserData().equals("MAIN_WORLD")) {
-            TopDownState.changeState = true;
-        }
     }
 
     @Override

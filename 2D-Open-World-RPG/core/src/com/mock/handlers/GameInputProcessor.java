@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.mock.hud.ActionHUD;
 import com.mock.hud.DirectionHUD;
+import com.mock.hud.ZoomHUD;
 import com.mock.main.Game;
 
 public class GameInputProcessor implements InputProcessor {
@@ -26,8 +27,16 @@ public class GameInputProcessor implements InputProcessor {
         if (DirectionHUD.rightButton.getBoundingRectangle().contains(screenX, screenY) && pointer == 0) {
             GameKeys.setKey(GameKeys.RIGHT, true);
         }
+        
+        // Actions and zooming below
         if (ActionHUD.actionButton.getBoundingRectangle().contains(screenX, screenY)) {
             GameKeys.setKey(GameKeys.SPACE, true);
+        }
+        if (ZoomHUD.plusButton.getBoundingRectangle().contains(screenX, screenY)) {
+            GameKeys.setKey(GameKeys.ZOOM_IN, true);
+        }
+        if (ZoomHUD.minusButton.getBoundingRectangle().contains(screenX, screenY)) {
+            GameKeys.setKey(GameKeys.ZOOM_OUT, true);
         }
         return true;
     }
@@ -41,6 +50,8 @@ public class GameInputProcessor implements InputProcessor {
             GameKeys.setKey(GameKeys.RIGHT, false);
         }
         GameKeys.setKey(GameKeys.SPACE, false); // TODO: Make the input more user-friendly
+        GameKeys.setKey(GameKeys.ZOOM_IN, false);
+        GameKeys.setKey(GameKeys.ZOOM_OUT, false);
         return true; 
     }
      

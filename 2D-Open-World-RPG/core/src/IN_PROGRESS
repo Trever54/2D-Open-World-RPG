@@ -1,0 +1,43 @@
+This text file contains things that are in progress or need work that have currently been implemented. It can be considered a TODO list
+
+UPDATED 5/22/16
+
+--HUD--
+1. HUD is pretty buggy, but works fine for testing at the moment. This would be best fixed up when I have the actual HUD art
+
+--COLLISIONS--
+1. A bit buggy still. The player gets seemingly stuck on tiles too easily. Putting him in a sphere might help/fix this issue? Perhaps
+creating a "rolling" effect on collisions with a sphere may be what I'm looking for. Either way, this will be a better thing to work on
+once I've got the official sprite sheet for the player.
+
+--ACTIONS--
+1. The action button is currently being implemented. The goal is to get something that's extremely simple to set up in the zones specific class.
+2. Will have to get the keyPressed method working correctly before anything else with the action button
+3. Still need to implement a way to make text pop up (and remove the HUD when doing so)
+
+--ZOOM--
+1. Currently is working through HUD buttons, but eventually I would like to implement a "pinching" way to zoom in and out (for android)
+while keeping the zoom buttons for the Desktop version of the game.
+
+--IN GAME ANIMATIONS--
+1. NOT YET STARTED. But these should work similar to how the actions are set up.
+
+--CHANGING ZONES--
+1. Currently being implemented. Having a problem with using the myContactListener class with the gameStateManager to switch states.
+2. Also having trouble determining exactly what's going on with disposing items after the state is changed. It needs to be confirmed
+that all items that need to are being disposed of.
+3. Not very pleased with how the player will change zones coming in from the side. It doesn't really look like the player 
+is entering the door in this case. I think this will be better to fix up after I have official art to work with.
+
+--ENTITIES--
+1. The Entity class is currently useless, and the AnimatedEntity class doesn't serve a huge purpose outside of supporting the Player class.
+This may change as the game expands and I find more need for Entities, but as it stands these may be things I should rework or simplify down.
+
+--BACKGROUND--
+1. NOT YET STARTED. The main world requires a sky background to be moving underneath the main platform. 
+This may be better to implement once I receive the official art.
+
+--PACKAGES, ORGANIZATION, AND REFACTORING--
+1. Now that I have a better idea of how the Top Down State is being organized, it may be worth it to reorganize some of the packages as to
+prepare to add other states in the near future (Title and Battle). Code should be organized and refactored as needed before starting to implement
+another state.

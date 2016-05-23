@@ -7,10 +7,10 @@ import com.mock.states.TopDownState;
 public class InsideTP extends TopDownState {
 
     public InsideTP(GameStateManager gsm) {
-        super(gsm, "collisionTest.tmx");
+        super(gsm, "mainWorld.tmx");
         player.setPosition(new Vector2(300, 300));
         
-         createChangeState(1, 0, "MAIN_WORLD");
+         // createChangeState(1, 0, "MAIN_WORLD");
     }
     
     

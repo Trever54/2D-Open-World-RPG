@@ -29,7 +29,7 @@ public class Player extends AnimatedEntity {
     
     public Player(Body body, Texture spriteSheet) {
         super(body, spriteSheet, BIT_SIZE, BIT_SIZE);
-        this.speed = 2f;
+        this.speed = 4f;
         this.dx = 0;
         this.dy = 0;
         // ANIMATION STUFF
