@@ -1,5 +1,7 @@
 package com.mock.handlers;
 
+import java.util.Stack;
+
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -8,6 +10,8 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 
 public class MyContactListener implements ContactListener {
 
+    public static Stack<String> contactStrings = new Stack<String>();
+    
     @Override
     public void beginContact(Contact contact) {
         String a = (String) contact.getFixtureA().getBody().getUserData();
@@ -21,9 +25,7 @@ public class MyContactListener implements ContactListener {
             playerBody = contact.getFixtureB().getBody();
             otherBody = contact.getFixtureA().getBody();
         }
-        if (otherBody.getUserData().equals("INSIDE_TP")) {
-            System.out.println("TEST");
-        } 
+        contactStrings.push(otherBody.getUserData().toString());
     }
 
     @Override

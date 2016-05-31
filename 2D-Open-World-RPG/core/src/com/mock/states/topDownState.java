@@ -3,6 +3,8 @@ package com.mock.states;
 import static com.mock.handlers.B2DVars.PPM;
 import static com.mock.main.Game.BIT_SIZE;
 
+import java.util.Stack;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -26,7 +28,7 @@ import com.mock.main.Game;
 public class TopDownState extends GameState {
     
     public static boolean debug = false;
-    
+     
     private Box2DDebugRenderer b2dr;
     private OrthographicCamera b2dCam;
     private World world;
@@ -51,6 +53,7 @@ public class TopDownState extends GameState {
     public void update(float dt) {
         GameKeys.update();
         world.step(dt, 6, 2);
+        handleContactStrings(); // HANDLES CONTACT STRINGS
         player.update(dt);
         cam.position.set(
                 player.getPosition().x,
@@ -79,9 +82,9 @@ public class TopDownState extends GameState {
     }
 
     public void dispose() {
+        hudManager.dispose();
         world.dispose();
         player.dispose();
-        hudManager.dispose();
         tmh.dispose();
     }
     
@@ -96,6 +99,16 @@ public class TopDownState extends GameState {
         body.createFixture(fdef);
         body.setUserData("player");
         return new Player(body, new Texture("player_sprite_sheet.png"));
+    }
+    
+    public void handleContactStrings() {
+        if (MyContactListener.contactStrings.isEmpty()) { return; }
+        String cs = MyContactListener.contactStrings.peek();
+        switch (cs) {
+            case "MAIN_WORLD": gsm.setState(GameStateManager.MAIN_WORLD); break;
+            case "TEST_ZONE": gsm.setState(GameStateManager.TEST_ZONE); break;
+        }
+        MyContactListener.contactStrings.pop();
     }
     
     protected void createChangeState(float cellX, float cellY, String state) {

@@ -14,7 +14,7 @@ public class MainWorld extends TopDownState{
         
         // createChangeState(19, 8, "INSIDE_TP");
         
-        
+        createChangeState(24, 24, "TEST_ZONE");
         
         
         // set animations

@@ -4,13 +4,13 @@ import java.util.Stack;
 
 import com.mock.main.Game;
 import com.mock.states.GameState;
-import com.mock.zones.InsideTP;
 import com.mock.zones.MainWorld;
+import com.mock.zones.TestZone;
 
 public class GameStateManager {
     
     public static final int MAIN_WORLD = 0;
-    public static final int INSIDE_TP = 1;
+    public static final int TEST_ZONE = 1;
     private Game game;
     private Stack<GameState> gameStates;
     
@@ -30,7 +30,7 @@ public class GameStateManager {
     
     private GameState getState(int state) {
         if (state == MAIN_WORLD) return new MainWorld(this);
-        if (state == INSIDE_TP) return new InsideTP(this);
+        if (state == TEST_ZONE) return new TestZone(this);
         return null;
     }
     

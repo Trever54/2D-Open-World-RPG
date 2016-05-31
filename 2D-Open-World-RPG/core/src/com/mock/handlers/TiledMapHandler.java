@@ -76,7 +76,7 @@ public class TiledMapHandler {
         shape.set(vertices);
         fdef.shape = shape;
         body.createFixture(fdef);
-        body.setUserData("collision_tile");
+        body.setUserData("COLLISION_TILE");
     }
     
     public World getWorld() {
