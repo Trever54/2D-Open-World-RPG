@@ -2,8 +2,8 @@ package com.mock.states;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mock.handlers.GameStateManager;
 import com.mock.main.Game;
+import com.mock.main.GameStateManager;
 
 public abstract class GameState {
     

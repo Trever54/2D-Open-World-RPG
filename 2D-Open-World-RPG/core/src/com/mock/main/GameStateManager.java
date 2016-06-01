@@ -1,8 +1,7 @@
-package com.mock.handlers;
+package com.mock.main;
 
 import java.util.Stack;
 
-import com.mock.main.Game;
 import com.mock.states.GameState;
 import com.mock.zones.MainWorld;
 import com.mock.zones.TestZone;

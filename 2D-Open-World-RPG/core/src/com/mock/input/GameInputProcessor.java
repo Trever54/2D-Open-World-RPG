@@ -1,4 +1,4 @@
-package com.mock.handlers;
+package com.mock.input;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;

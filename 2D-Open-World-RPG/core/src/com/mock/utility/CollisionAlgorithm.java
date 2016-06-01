@@ -1,7 +1,7 @@
 package com.mock.utility;
 
-import static com.mock.handlers.B2DVars.PPM;
 import static com.mock.main.Game.BIT_SIZE;
+import static com.mock.utility.B2DVars.PPM;
 
 import java.util.ArrayList;
 

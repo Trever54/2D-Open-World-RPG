@@ -1,6 +1,6 @@
 package com.mock.entities;
 
-import static com.mock.handlers.B2DVars.PPM;
+import static com.mock.utility.B2DVars.PPM;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

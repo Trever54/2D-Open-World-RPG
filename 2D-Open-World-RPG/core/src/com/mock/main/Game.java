@@ -5,8 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mock.handlers.GameInputProcessor;
-import com.mock.handlers.GameStateManager;
+import com.mock.input.GameInputProcessor;
 
 public class Game extends ApplicationAdapter {
     

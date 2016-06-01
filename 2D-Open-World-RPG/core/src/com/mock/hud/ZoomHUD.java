@@ -3,7 +3,7 @@ package com.mock.hud;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mock.handlers.GameKeys;
+import com.mock.input.GameKeys;
 import com.mock.main.Game;
 
 public class ZoomHUD {

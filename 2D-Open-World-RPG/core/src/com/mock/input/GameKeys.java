@@ -1,4 +1,4 @@
-package com.mock.handlers;
+package com.mock.input;
 
 public class GameKeys {
     

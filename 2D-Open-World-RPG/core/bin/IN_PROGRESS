@@ -1,6 +1,6 @@
 This text file contains things that are in progress or need work that have currently been implemented. It can be considered a TODO list
 
-UPDATED 5/22/16
+UPDATED 6/1/16
 
 --HUD--
 1. HUD is pretty buggy, but works fine for testing at the moment. This would be best fixed up when I have the actual HUD art
@@ -23,7 +23,8 @@ while keeping the zoom buttons for the Desktop version of the game.
 1. NOT YET STARTED. But these should work similar to how the actions are set up.
 
 --CHANGING ZONES--
-1. Currently being implemented. Having a problem with using the myContactListener class with the gameStateManager to switch states.
+1. Having trouble with the HUD showing up in the wrong spot for a split second when the zone switches. Other than that, it's implemented and functioning
+correctly. Could use some refactoring depending on hoe the rest of the actions end up being designed.
 2. Also having trouble determining exactly what's going on with disposing items after the state is changed. It needs to be confirmed
 that all items that need to are being disposed of.
 3. Not very pleased with how the player will change zones coming in from the side. It doesn't really look like the player 
