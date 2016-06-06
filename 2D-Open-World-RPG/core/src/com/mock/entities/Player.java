@@ -12,6 +12,11 @@ import com.mock.input.GameKeys;
 
 public class Player extends AnimatedEntity {
     
+    public static boolean facingLeft;
+    public static boolean facingRight;
+    public static boolean facingUp;
+    public static boolean facingDown;
+    
     private Animation downAnimation;
     private Animation upAnimation;
     private Animation leftAnimation;
@@ -76,42 +81,89 @@ public class Player extends AnimatedEntity {
             dx = -speed; 
             currentAnimation = leftAnimation;
             moving = true;
+            facingLeft = true;
+            facingRight = false;
+            facingUp = false;
+            facingDown = false;
         } 
         if (GameKeys.isDown(GameKeys.RIGHT) && !moving) { 
             dx = speed;
             currentAnimation = rightAnimation;
             moving = true;
+            facingLeft = false;
+            facingRight = true;
+            facingUp = false;
+            facingDown = false;
         }
         if (GameKeys.isUp(GameKeys.RIGHT) && currentAnimation.equals(rightAnimation)) { 
             dx = 0;
             currentAnimation = rightStanding;
             moving = false;
+            facingLeft = false;
+            facingRight = true;
+            facingUp = false;
+            facingDown = false;
         }
         if (GameKeys.isUp(GameKeys.LEFT) && currentAnimation.equals(leftAnimation)) { 
             dx = 0;
             currentAnimation = leftStanding;
             moving = false;
+            facingLeft = true;
+            facingRight = false;
+            facingUp = false;
+            facingDown = false;
         }
         if (GameKeys.isDown(GameKeys.UP) && !moving) { 
             dy = speed; 
             currentAnimation = upAnimation;
             moving = true;
+            facingLeft = false;
+            facingRight = false;
+            facingUp = true;
+            facingDown = false;
         } 
         if (GameKeys.isDown(GameKeys.DOWN) && !moving) { 
             dy = -speed;
             currentAnimation = downAnimation;
             moving = true;
+            facingLeft = false;
+            facingRight = false;
+            facingUp = false;
+            facingDown = true;
         } 
         if (GameKeys.isUp(GameKeys.DOWN) && currentAnimation.equals(downAnimation)) { 
             dy = 0; 
             currentAnimation = downStanding;
             moving = false;
+            facingLeft = false;
+            facingRight = false;
+            facingUp = false;
+            facingDown = true;
         }
         if (GameKeys.isUp(GameKeys.UP) && currentAnimation.equals(upAnimation)) { 
             dy = 0; 
             currentAnimation = upStanding;
             moving = false;
+            facingLeft = false;
+            facingRight = false;
+            facingUp = true;
+            facingDown = false;
         }
         body.setLinearVelocity(new Vector2(dx, dy));
+    }
+    
+    public void stopMoving() {
+        if (facingLeft == true) {
+            currentAnimation = leftStanding;
+        }
+        if (facingRight == true) {
+            currentAnimation = rightStanding;
+        }
+        if (facingUp == true) {
+            currentAnimation = upStanding;
+        }
+        if (facingDown == true) {
+            currentAnimation = downStanding;
+        }
     }
 }

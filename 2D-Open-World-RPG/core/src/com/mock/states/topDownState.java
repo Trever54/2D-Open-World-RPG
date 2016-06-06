@@ -23,10 +23,14 @@ import com.mock.input.GameKeys;
 import com.mock.main.Game;
 import com.mock.main.GameStateManager;
 
+import actions.TextAction;
+
 public class TopDownState extends GameState {
     
     public static boolean debug = false;
      
+    public static boolean freezePlayer = false;
+    
     private Box2DDebugRenderer b2dr;
     private OrthographicCamera b2dCam;
     private World world;
@@ -49,10 +53,10 @@ public class TopDownState extends GameState {
     }
 
     public void update(float dt) {
-        GameKeys.update();  
         world.step(dt, 6, 2);
-        handleContactStrings();
-        player.update(dt);
+        handleTextActions();
+        // updateActions();    // TODO: GET THIS WORKING OR REMOVE
+        if (!freezePlayer) { player.update(dt); } else { player.stopMoving(); }
         cam.position.set(
                 player.getPosition().x,
                 player.getPosition().y,
@@ -60,6 +64,7 @@ public class TopDownState extends GameState {
         hudManager.update(dt);
         cam.zoom = Game.ZOOM;
         cam.update();
+        GameKeys.update();
     }
     
     public void render() {
@@ -72,8 +77,10 @@ public class TopDownState extends GameState {
         player.render(sb);  
         tmh.renderCollisionLayer(sb, cam);
         tmh.renderTopLayer(sb, cam);
-        
         hudManager.render();
+        
+        // handle misc things
+        handleZoneSwitching();
         
         // Box2D Debugging stuff
         if (debug) {
@@ -102,12 +109,38 @@ public class TopDownState extends GameState {
         return new Player(body, new Texture("player_sprite_sheet.png"));
     }
     
-    public void handleContactStrings() {
-        if (ContactHandler.contactStrings.isEmpty()) { return; }
-        String cs = ContactHandler.contactStrings.pop();
-        switch (cs) {
+    private void handleZoneSwitching() {
+        if (ContactHandler.zoneStrings.isEmpty()) { return; }
+        String zone = ContactHandler.zoneStrings.pop();
+        switch (zone) {
             case "MAIN_WORLD": gsm.setState(GameStateManager.MAIN_WORLD); break;
             case "TEST_ZONE": gsm.setState(GameStateManager.TEST_ZONE); break;
+        }
+    }
+    
+    private void handleTextActions() {
+        if (ContactHandler.textActions.isEmpty()) { return; }
+        TextAction textAction = ContactHandler.textActions.peek();
+        // hudManager.textMode = true;
+        freezePlayer = true;
+        HUDManager.textMode = true;
+    }
+    
+    // TODO: FIGURE THIS OUT
+    public void updateActions() {
+        if (GameKeys.isPressed(GameKeys.SPACE)) {
+            BodyDef bdef = new BodyDef();
+            FixtureDef fdef = new FixtureDef();
+            PolygonShape shape = new PolygonShape();
+            bdef.type = BodyType.StaticBody;
+            Body body = world.createBody(bdef);
+            shape.setAsBox((BIT_SIZE / 2) / PPM, (BIT_SIZE / 2) / PPM);
+            body.setTransform(new Vector2(
+                    player.getPosition().x + 10 / PPM, 
+                    player.getPosition().y + 10 / PPM), 0);
+            fdef.shape = shape;
+            body.createFixture(fdef);
+            body.setUserData("ACTION");
         }
     }
     
@@ -124,5 +157,21 @@ public class TopDownState extends GameState {
         fdef.shape = shape;
         body.createFixture(fdef);
         body.setUserData(state);
+    }
+    
+    // TODO: Pretty much the same as createChangeState but with a textAction
+    protected void createTextAction(float cellX, float cellY, TextAction textAction) {
+        BodyDef bdef = new BodyDef();
+        FixtureDef fdef = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+        bdef.type = BodyType.StaticBody;
+        Body body = world.createBody(bdef);
+        shape.setAsBox((BIT_SIZE / 2) / PPM, (BIT_SIZE / 2) / PPM);
+        body.setTransform(new Vector2(
+                ((cellX * BIT_SIZE) + (BIT_SIZE / 2)) / PPM, 
+                ((cellY * BIT_SIZE) + (BIT_SIZE / 2)) / PPM), 0);
+        fdef.shape = shape;
+        body.createFixture(fdef);
+        body.setUserData(textAction);
     }
 }

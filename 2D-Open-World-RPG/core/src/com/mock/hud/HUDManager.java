@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mock.main.Game;
 
 public class HUDManager {
+    
+    public static boolean textMode = false;
 
     private OrthographicCamera hudCam;
     private SpriteBatch hudSB;
@@ -13,6 +15,8 @@ public class HUDManager {
     private ActionHUD actionHUD;
     private ZoomHUD zoomHUD;
     
+    private TextHUD textHUD;
+    
     public HUDManager() {
         hudCam = new OrthographicCamera(Game.V_WIDTH, Game.V_HEIGHT);
         hudCam.position.set(Game.V_WIDTH / 2, Game.V_HEIGHT / 2, 0);
@@ -20,26 +24,36 @@ public class HUDManager {
         directionHUD = new DirectionHUD();
         actionHUD = new ActionHUD();
         zoomHUD = new ZoomHUD();
+        textHUD = new TextHUD();
     }
     
     public void update(float dt) {
         hudCam.update();
-        directionHUD.update(dt);
-        actionHUD.update(dt);
-        zoomHUD.update(dt);
+        if (!textMode) {
+            directionHUD.update(dt);
+            actionHUD.update(dt);
+            zoomHUD.update(dt);
+        } else {
+            textHUD.update(dt);
+        }
     }
     
     public void render() {
         hudSB.setProjectionMatrix(hudCam.combined);
-        directionHUD.render(hudSB); 
-        actionHUD.render(hudSB);
-        zoomHUD.render(hudSB);
+        if (!textMode) {
+            directionHUD.render(hudSB); 
+            actionHUD.render(hudSB);
+            zoomHUD.render(hudSB);
+        } else {
+            textHUD.render(hudSB);
+        }
     }
     
     public void dispose() {
         directionHUD.dispose();
         actionHUD.dispose();
         zoomHUD.dispose();
+        textHUD.dispose();
     }
     
 }

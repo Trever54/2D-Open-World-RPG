@@ -8,14 +8,17 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
+import actions.TextAction;
+
 public class ContactHandler implements ContactListener {
 
-    public static Stack<String> contactStrings = new Stack<String>();
+    public static Stack<String> zoneStrings = new Stack<String>();
+    public static Stack<TextAction> textActions = new Stack<TextAction>();
     
     @Override
     public void beginContact(Contact contact) {
-        String a = (String) contact.getFixtureA().getBody().getUserData();
-        String b = (String) contact.getFixtureB().getBody().getUserData();
+        String a = (String) contact.getFixtureA().getBody().getUserData().toString();
+        String b = (String) contact.getFixtureB().getBody().getUserData().toString();
         Body playerBody = null;
         Body otherBody = null;
         if (a.equals("player")) {
@@ -25,7 +28,13 @@ public class ContactHandler implements ContactListener {
             playerBody = contact.getFixtureB().getBody();
             otherBody = contact.getFixtureA().getBody();
         }
-        contactStrings.push(otherBody.getUserData().toString());
+        // figure out where the userdata needs to be put
+        if (otherBody.getUserData().getClass().equals(TextAction.class)) {
+            textActions.push((TextAction) otherBody.getUserData());
+        }
+        if (otherBody.getUserData().getClass().equals(String.class)) {
+            zoneStrings.push(otherBody.getUserData().toString());
+        }
     }
 
     @Override
