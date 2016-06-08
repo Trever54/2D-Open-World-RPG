@@ -3,6 +3,9 @@ package com.mock.hud;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mock.entities.Player;
+import com.mock.input.GameKeys;
+import com.mock.input.TouchInput;
 import com.mock.main.Game;
 
 public class DirectionHUD {
@@ -30,7 +33,50 @@ public class DirectionHUD {
     }
     
     public void update(float dt) {
-        
+        if ((TouchInput.containsTouchDown(upButton) || GameKeys.isDown(GameKeys.UP)) && !Player.moving) {
+            Player.dy = Player.SPEED;
+        }
+        if ((TouchInput.containsTouchDown(downButton) || GameKeys.isDown(GameKeys.DOWN)) && !Player.moving) {
+            Player.dy = - Player.SPEED;
+        }
+        if ((TouchInput.containsTouchDown(leftButton) || GameKeys.isDown(GameKeys.LEFT)) && !Player.moving) {
+            Player.dx = - Player.SPEED;
+        }
+        if ((TouchInput.containsTouchDown(rightButton) || GameKeys.isDown(GameKeys.RIGHT)) && !Player.moving) {
+            Player.dx = Player.SPEED;
+        }
+        if (TouchInput.containsTouchDown(upButton) && Player.facingUp && TouchInput.touchUp) {
+            Player.dy = 0;
+        }
+        if (TouchInput.containsTouchDown(downButton) && Player.facingDown && TouchInput.touchUp) {
+            Player.dy = 0;
+        }
+        if (TouchInput.containsTouchDown(leftButton) && Player.facingLeft && TouchInput.touchUp) {
+            Player.dx = 0;
+        }
+        if (TouchInput.containsTouchDown(rightButton) && Player.facingRight && TouchInput.touchUp) {
+            Player.dx = 0;
+        }   
+        if (GameKeys.isUp(GameKeys.UP) && Player.facingUp && !TouchInput.touchDown) {
+            GameKeys.setKey(GameKeys.UP, false);
+            Player.dx = 0;
+            Player.dy = 0;
+        }
+        if (GameKeys.isUp(GameKeys.DOWN) && Player.facingDown && !TouchInput.touchDown) {
+            GameKeys.setKey(GameKeys.DOWN, false);
+            Player.dx = 0;
+            Player.dy = 0;
+        }
+        if (GameKeys.isUp(GameKeys.LEFT) && Player.facingLeft && !TouchInput.touchDown) {
+            GameKeys.setKey(GameKeys.LEFT, false);
+            Player.dx = 0;
+            Player.dy = 0;
+        }
+        if (GameKeys.isUp(GameKeys.RIGHT) && Player.facingRight && !TouchInput.touchDown) {
+            GameKeys.setKey(GameKeys.RIGHT, false);
+            Player.dx = 0;
+            Player.dy = 0;
+        }
     }
     
     public void render(SpriteBatch hudSB) {     

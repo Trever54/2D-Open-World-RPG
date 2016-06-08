@@ -3,7 +3,7 @@ package com.mock.hud;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mock.input.GameKeys;
+import com.mock.input.TouchInput;
 import com.mock.main.Game;
 
 public class ZoomHUD {
@@ -24,10 +24,12 @@ public class ZoomHUD {
     }
     
     public void update(float dt) {   
-        if (GameKeys.isDown(GameKeys.ZOOM_IN) && Game.ZOOM > 0.5f) {
+        if (TouchInput.containsTouchDown(plusButton)
+                && Game.ZOOM > 0.5f) {
             Game.ZOOM -= 0.01f;
-        } 
-        if (GameKeys.isDown(GameKeys.ZOOM_OUT) && Game.ZOOM < 2.5f) {
+        }
+        if (TouchInput.containsTouchDown(minusButton)
+                && Game.ZOOM < 2.5f) {
             Game.ZOOM += 0.01f;
         }
     }

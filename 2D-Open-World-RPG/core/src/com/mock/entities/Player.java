@@ -8,9 +8,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.mock.input.GameKeys;
 
 public class Player extends AnimatedEntity {
+    
+    public static final float SPEED = 4f;
+    public static float dx;
+    public static float dy;
+    public static boolean moving;
     
     public static boolean facingLeft;
     public static boolean facingRight;
@@ -26,17 +30,11 @@ public class Player extends AnimatedEntity {
     private Animation leftStanding;
     private Animation rightStanding;
     private Animation currentAnimation;
-    private boolean moving;
-    
-    private float speed;
-    private float dx;
-    private float dy;
     
     public Player(Body body, Texture spriteSheet) {
         super(body, spriteSheet, BIT_SIZE, BIT_SIZE);
-        this.speed = 4f;
-        this.dx = 0;
-        this.dy = 0;
+        dx = 0;
+        dy = 0;
         // ANIMATION STUFF
         TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, BIT_SIZE, BIT_SIZE);
         TextureRegion[] downFrames = new TextureRegion[4];
@@ -77,93 +75,70 @@ public class Player extends AnimatedEntity {
     
     public void update(float dt) {
         super.update(dt);
-        if (GameKeys.isDown(GameKeys.LEFT) && !moving) { 
-            dx = -speed; 
-            currentAnimation = leftAnimation;
+        if (dx > 0) {
             moving = true;
-            facingLeft = true;
-            facingRight = false;
+            facingRight = true;
+            facingLeft = false;
             facingUp = false;
             facingDown = false;
-        } 
-        if (GameKeys.isDown(GameKeys.RIGHT) && !moving) { 
-            dx = speed;
             currentAnimation = rightAnimation;
+        }
+        if (dx < 0) {
             moving = true;
-            facingLeft = false;
-            facingRight = true;
-            facingUp = false;
-            facingDown = false;
-        }
-        if (GameKeys.isUp(GameKeys.RIGHT) && currentAnimation.equals(rightAnimation)) { 
-            dx = 0;
-            currentAnimation = rightStanding;
-            moving = false;
-            facingLeft = false;
-            facingRight = true;
-            facingUp = false;
-            facingDown = false;
-        }
-        if (GameKeys.isUp(GameKeys.LEFT) && currentAnimation.equals(leftAnimation)) { 
-            dx = 0;
-            currentAnimation = leftStanding;
-            moving = false;
+            facingRight = false;
             facingLeft = true;
-            facingRight = false;
             facingUp = false;
             facingDown = false;
+            currentAnimation = leftAnimation;
         }
-        if (GameKeys.isDown(GameKeys.UP) && !moving) { 
-            dy = speed; 
+        if (dy > 0) {
+            moving = true;
+            facingRight = false;
+            facingLeft = false;
+            facingUp = true;
+            facingDown = false;
             currentAnimation = upAnimation;
-            moving = true;
-            facingLeft = false;
-            facingRight = false;
-            facingUp = true;
-            facingDown = false;
-        } 
-        if (GameKeys.isDown(GameKeys.DOWN) && !moving) { 
-            dy = -speed;
-            currentAnimation = downAnimation;
-            moving = true;
-            facingLeft = false;
-            facingRight = false;
-            facingUp = false;
-            facingDown = true;
-        } 
-        if (GameKeys.isUp(GameKeys.DOWN) && currentAnimation.equals(downAnimation)) { 
-            dy = 0; 
-            currentAnimation = downStanding;
-            moving = false;
-            facingLeft = false;
-            facingRight = false;
-            facingUp = false;
-            facingDown = true;
         }
-        if (GameKeys.isUp(GameKeys.UP) && currentAnimation.equals(upAnimation)) { 
-            dy = 0; 
-            currentAnimation = upStanding;
-            moving = false;
-            facingLeft = false;
+        if (dy < 0) {
+            moving = true;
             facingRight = false;
-            facingUp = true;
+            facingLeft = false;
+            facingUp = false;
+            facingDown = true;
+            currentAnimation = downAnimation;
+        }
+        if (dx == 0 && dy == 0 && facingRight) {
+            moving = false;
+            facingRight = false;
+            facingLeft = false;
+            facingUp = false;
             facingDown = false;
+            currentAnimation = rightStanding;
+        }
+        if (dx == 0 && dy == 0 && facingLeft) {
+            moving = false;
+            facingRight = false;
+            facingLeft = false;
+            facingUp = false;
+            facingDown = false;
+            currentAnimation = leftStanding;
+        }
+        if (dx == 0 && dy == 0 && facingUp) {
+            moving = false;
+            facingRight = false;
+            facingLeft = false;
+            facingUp = false;
+            facingDown = false;
+            currentAnimation = upStanding;
+        }
+        if (dx == 0 && dy == 0 && facingDown) {
+            moving = false;
+            facingRight = false;
+            facingLeft = false;
+            facingUp = false;
+            facingDown = false;
+            currentAnimation = downStanding;
         }
         body.setLinearVelocity(new Vector2(dx, dy));
-    }
-    
-    public void stopMoving() {
-        if (facingLeft == true) {
-            currentAnimation = leftStanding;
-        }
-        if (facingRight == true) {
-            currentAnimation = rightStanding;
-        }
-        if (facingUp == true) {
-            currentAnimation = upStanding;
-        }
-        if (facingDown == true) {
-            currentAnimation = downStanding;
-        }
     }
 }

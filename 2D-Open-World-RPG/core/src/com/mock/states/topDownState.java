@@ -20,6 +20,7 @@ import com.mock.handlers.ContactHandler;
 import com.mock.handlers.TiledMapHandler;
 import com.mock.hud.HUDManager;
 import com.mock.input.GameKeys;
+import com.mock.input.TouchInput;
 import com.mock.main.Game;
 import com.mock.main.GameStateManager;
 
@@ -28,7 +29,7 @@ import actions.TextAction;
 public class TopDownState extends GameState {
     
     public static boolean debug = false;
-     
+    
     public static boolean freezePlayer = false;
     
     private Box2DDebugRenderer b2dr;
@@ -56,7 +57,7 @@ public class TopDownState extends GameState {
         world.step(dt, 6, 2);
         handleTextActions();
         // updateActions();    // TODO: GET THIS WORKING OR REMOVE
-        if (!freezePlayer) { player.update(dt); } else { player.stopMoving(); }
+        if (!freezePlayer) { player.update(dt); }
         cam.position.set(
                 player.getPosition().x,
                 player.getPosition().y,
@@ -65,6 +66,7 @@ public class TopDownState extends GameState {
         cam.zoom = Game.ZOOM;
         cam.update();
         GameKeys.update();
+        TouchInput.update();
     }
     
     public void render() {
@@ -121,7 +123,6 @@ public class TopDownState extends GameState {
     private void handleTextActions() {
         if (ContactHandler.textActions.isEmpty()) { return; }
         TextAction textAction = ContactHandler.textActions.peek();
-        // hudManager.textMode = true;
         freezePlayer = true;
         HUDManager.textMode = true;
     }
