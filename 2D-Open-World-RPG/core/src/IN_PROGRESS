@@ -29,6 +29,7 @@ I think this will be better to fix up after I have official art to work with.
 1. The Entity class is currently useless, and the AnimatedEntity class doesn't serve a huge purpose outside of supporting the Player class.
 This may change as the game expands and I find more need for Entities, but as it stands these may be things I should rework or simplify down.
 
---BACKGROUND--
-1. NOT YET STARTED. The main world requires a sky background to be moving underneath the main platform. 
-This may be better to implement once I receive the official art.
+--BACKGROUND-- <- WAITING FOR ART
+1. The main world requires a sky background to be moving underneath the main platform. 
+This may be better to implement once I receive the official art, but I do currently have support for a TopDownState to have a background.
+It just doesn't move at the moment.

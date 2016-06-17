@@ -8,6 +8,7 @@ public class TestZone extends TopDownState {
 
     public TestZone(GameStateManager gsm) {
         super(gsm, "testZone.tmx");
+        setBackground("night.png");
         player.setPosition(new Vector2(128, 128));
         
         createChangeState(2, 0, "MAIN_WORLD");

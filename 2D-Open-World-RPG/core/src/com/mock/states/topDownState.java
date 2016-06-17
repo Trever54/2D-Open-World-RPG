@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mock.entities.Background;
 import com.mock.entities.Player;
 import com.mock.handlers.ContactHandler;
 import com.mock.handlers.TiledMapHandler;
@@ -32,6 +33,8 @@ import actions.TextAction;
 public class TopDownState extends GameState {
     
     public static boolean debug = false;
+    
+    private Background background;
     
     public static boolean freezePlayer = false;
     public static boolean castRay = false;
@@ -63,10 +66,12 @@ public class TopDownState extends GameState {
         p2 = new Vector2();
         sr = new ShapeRenderer();
         sr.setColor(Color.BLUE);
+        background = null;
     }
 
     public void update(float dt) {
         world.step(dt, 6, 2);
+        if (background != null) { background.update(dt); }
         if (castRay) { handleRayCasting(); }
         handleTextActions();
         if (!freezePlayer) { player.update(dt); }
@@ -82,11 +87,12 @@ public class TopDownState extends GameState {
     }
     
     public void render() {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         sb.setProjectionMatrix(cam.combined);
 
         // render objects
+        if (background != null) { background.render(sb); }
         tmh.renderTerrainLayer(sb, cam);
         player.render(sb);
         tmh.renderCollisionLayer(sb, cam);
@@ -110,6 +116,7 @@ public class TopDownState extends GameState {
         hudManager.dispose();
         world.dispose();
         player.dispose();
+        if (background != null) { background.dispose(); }
         tmh.dispose();
         b2dr.dispose();
         sr.dispose();
@@ -195,6 +202,10 @@ public class TopDownState extends GameState {
         fdef.shape = shape;
         body.createFixture(fdef);
         body.setUserData(textAction);
+    }
+    
+    protected void setBackground(String path) {
+        background = new Background(path);
     }
       
 }

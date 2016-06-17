@@ -10,6 +10,7 @@ public class MainWorld extends TopDownState{
     
     public MainWorld(GameStateManager gsm) {
         super(gsm, "mainWorld.tmx");
+        setBackground("clouds.png");
         player.setPosition(new Vector2(1500, 1500));
         
         
