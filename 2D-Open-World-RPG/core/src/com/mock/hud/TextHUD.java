@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mock.handlers.ContactHandler;
+import com.mock.input.GameKeys;
 import com.mock.input.TouchInput;
 import com.mock.main.Game;
 import com.mock.states.TopDownState;
@@ -25,7 +26,7 @@ public class TextHUD {
     
     public void update(float dt) {
         String text = ContactHandler.textActions.peek().getText();
-        if (TouchInput.isPressed(textPanel)) {
+        if (TouchInput.isPressed(textPanel) || GameKeys.isPressed(GameKeys.SPACE)) {
             ContactHandler.textActions.pop().dispose();
             TopDownState.freezePlayer = false;
             HUDManager.textMode = false;

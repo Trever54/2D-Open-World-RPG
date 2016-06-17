@@ -66,6 +66,7 @@ public class Player extends AnimatedEntity {
         leftStanding = new Animation(1f, tmpFrames[1][1]);
         rightStanding = new Animation(1f, tmpFrames[2][1]);
         currentAnimation = downStanding;
+        facingDown = true;
         moving = false;
     }
     
@@ -109,7 +110,7 @@ public class Player extends AnimatedEntity {
         }
         if (dx == 0 && dy == 0 && facingRight) {
             moving = false;
-            facingRight = false;
+            facingRight = true;
             facingLeft = false;
             facingUp = false;
             facingDown = false;
@@ -118,7 +119,7 @@ public class Player extends AnimatedEntity {
         if (dx == 0 && dy == 0 && facingLeft) {
             moving = false;
             facingRight = false;
-            facingLeft = false;
+            facingLeft = true;
             facingUp = false;
             facingDown = false;
             currentAnimation = leftStanding;
@@ -127,7 +128,7 @@ public class Player extends AnimatedEntity {
             moving = false;
             facingRight = false;
             facingLeft = false;
-            facingUp = false;
+            facingUp = true;
             facingDown = false;
             currentAnimation = upStanding;
         }
@@ -136,9 +137,10 @@ public class Player extends AnimatedEntity {
             facingRight = false;
             facingLeft = false;
             facingUp = false;
-            facingDown = false;
+            facingDown = true;
             currentAnimation = downStanding;
         }
         body.setLinearVelocity(new Vector2(dx, dy));
     }
+    
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mock.input.GameKeys;
 import com.mock.input.TouchInput;
 import com.mock.main.Game;
+import com.mock.states.TopDownState;
 
 public class ActionHUD {
     
@@ -21,11 +22,8 @@ public class ActionHUD {
     
     public void update(float dt) {  
         if (TouchInput.isPressed(actionButton) || GameKeys.isPressed(GameKeys.SPACE)) {
-            System.out.println("PERFORM ACTION");
+            TopDownState.castRay = true;
         } 
-        if (TouchInput.touchUp) {
-            GameKeys.setKey(GameKeys.SPACE, false);
-        }
     }
     
     public void render(SpriteBatch hudSB) {

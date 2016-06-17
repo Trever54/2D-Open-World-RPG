@@ -45,34 +45,34 @@ public class DirectionHUD {
         if ((TouchInput.containsTouchDown(rightButton) || GameKeys.isDown(GameKeys.RIGHT)) && !Player.moving) {
             Player.dx = Player.SPEED;
         }
-        if (TouchInput.containsTouchDown(upButton) && Player.facingUp && TouchInput.touchUp) {
+        if (TouchInput.containsTouchDown(upButton) && TouchInput.touchUp) {
             Player.dy = 0;
         }
-        if (TouchInput.containsTouchDown(downButton) && Player.facingDown && TouchInput.touchUp) {
+        if (TouchInput.containsTouchDown(downButton) && TouchInput.touchUp) {
             Player.dy = 0;
         }
-        if (TouchInput.containsTouchDown(leftButton) && Player.facingLeft && TouchInput.touchUp) {
+        if (TouchInput.containsTouchDown(leftButton) && TouchInput.touchUp) {
             Player.dx = 0;
         }
-        if (TouchInput.containsTouchDown(rightButton) && Player.facingRight && TouchInput.touchUp) {
+        if (TouchInput.containsTouchDown(rightButton) && TouchInput.touchUp) {
             Player.dx = 0;
         }   
-        if (GameKeys.isUp(GameKeys.UP) && Player.facingUp && !TouchInput.touchDown) {
+        if (GameKeys.isUp(GameKeys.UP) && Player.facingUp && Player.moving && !TouchInput.touchDown) {
             GameKeys.setKey(GameKeys.UP, false);
             Player.dx = 0;
             Player.dy = 0;
         }
-        if (GameKeys.isUp(GameKeys.DOWN) && Player.facingDown && !TouchInput.touchDown) {
+        if (GameKeys.isUp(GameKeys.DOWN) && Player.facingDown && Player.moving && !TouchInput.touchDown) {
             GameKeys.setKey(GameKeys.DOWN, false);
             Player.dx = 0;
             Player.dy = 0;
         }
-        if (GameKeys.isUp(GameKeys.LEFT) && Player.facingLeft && !TouchInput.touchDown) {
+        if (GameKeys.isUp(GameKeys.LEFT) && Player.facingLeft && Player.moving && !TouchInput.touchDown) {
             GameKeys.setKey(GameKeys.LEFT, false);
             Player.dx = 0;
             Player.dy = 0;
         }
-        if (GameKeys.isUp(GameKeys.RIGHT) && Player.facingRight && !TouchInput.touchDown) {
+        if (GameKeys.isUp(GameKeys.RIGHT) && Player.facingRight && Player.moving && !TouchInput.touchDown) {
             GameKeys.setKey(GameKeys.RIGHT, false);
             Player.dx = 0;
             Player.dy = 0;

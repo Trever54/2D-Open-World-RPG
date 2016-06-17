@@ -4,9 +4,12 @@ import static com.mock.main.Game.BIT_SIZE;
 import static com.mock.utility.B2DVars.PPM;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -31,6 +34,7 @@ public class TopDownState extends GameState {
     public static boolean debug = false;
     
     public static boolean freezePlayer = false;
+    public static boolean castRay = false;
     
     private Box2DDebugRenderer b2dr;
     private OrthographicCamera b2dCam;
@@ -38,6 +42,10 @@ public class TopDownState extends GameState {
     private ContactHandler contactListener;
     private TiledMapHandler tmh;
     private HUDManager hudManager;
+    
+    private Vector2 p1, p2;
+    private ShapeRenderer sr;
+    
     public Player player;
 
     public TopDownState(GameStateManager gsm, String tiledPath) {
@@ -51,12 +59,16 @@ public class TopDownState extends GameState {
         world.setContactListener(contactListener);
         player = createPlayer();
         hudManager = new HUDManager();
+        p1 = new Vector2();
+        p2 = new Vector2();
+        sr = new ShapeRenderer();
+        sr.setColor(Color.BLUE);
     }
 
     public void update(float dt) {
         world.step(dt, 6, 2);
+        if (castRay) { handleRayCasting(); }
         handleTextActions();
-        // updateActions();    // TODO: GET THIS WORKING OR REMOVE
         if (!freezePlayer) { player.update(dt); }
         cam.position.set(
                 player.getPosition().x,
@@ -76,7 +88,7 @@ public class TopDownState extends GameState {
 
         // render objects
         tmh.renderTerrainLayer(sb, cam);
-        player.render(sb);  
+        player.render(sb);
         tmh.renderCollisionLayer(sb, cam);
         tmh.renderTopLayer(sb, cam);
         hudManager.render();
@@ -86,6 +98,10 @@ public class TopDownState extends GameState {
         
         // Box2D Debugging stuff
         if (debug) {
+            sr.setProjectionMatrix(b2dCam.combined);
+            sr.begin(ShapeType.Line);
+            sr.line(p1, p2);
+            sr.end();
             b2dr.render(world, b2dCam.combined);
         }
     }
@@ -96,6 +112,7 @@ public class TopDownState extends GameState {
         player.dispose();
         tmh.dispose();
         b2dr.dispose();
+        sr.dispose();
     }
     
     private Player createPlayer() {
@@ -109,6 +126,28 @@ public class TopDownState extends GameState {
         body.createFixture(fdef);
         body.setUserData("player");
         return new Player(body, new Texture("player_sprite_sheet.png"));
+    }
+    
+    private void handleRayCasting() {
+        float px = player.getPosition().x / PPM;
+        float py = player.getPosition().y / PPM;
+        float pw = player.getWidth() / PPM;
+        float ph = player.getHeight() / PPM;
+        p1 = new Vector2(px, py);
+        if (player.facingLeft) {
+            p2 = new Vector2(px - pw, py);
+        }
+        if (player.facingRight) {
+            p2 = new Vector2(px + pw, py);
+        }
+        if (player.facingDown) {
+            p2 = new Vector2(px, py - ph);
+        }
+        if (player.facingUp) {
+            p2 = new Vector2(px, py + ph);
+        }
+        world.rayCast(contactListener.callback, p1, p2);
+        castRay = false;
     }
     
     private void handleZoneSwitching() {
@@ -125,25 +164,7 @@ public class TopDownState extends GameState {
         TextAction textAction = ContactHandler.textActions.peek();
         freezePlayer = true;
         HUDManager.textMode = true;
-    }
-    
-    // TODO: FIGURE THIS OUT
-    public void updateActions() {
-        if (GameKeys.isPressed(GameKeys.SPACE)) {
-            BodyDef bdef = new BodyDef();
-            FixtureDef fdef = new FixtureDef();
-            PolygonShape shape = new PolygonShape();
-            bdef.type = BodyType.StaticBody;
-            Body body = world.createBody(bdef);
-            shape.setAsBox((BIT_SIZE / 2) / PPM, (BIT_SIZE / 2) / PPM);
-            body.setTransform(new Vector2(
-                    player.getPosition().x + 10 / PPM, 
-                    player.getPosition().y + 10 / PPM), 0);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-            body.setUserData("ACTION");
-        }
-    }
+    } 
     
     protected void createChangeState(float cellX, float cellY, String state) {
         BodyDef bdef = new BodyDef();
@@ -175,4 +196,5 @@ public class TopDownState extends GameState {
         body.createFixture(fdef);
         body.setUserData(textAction);
     }
+      
 }

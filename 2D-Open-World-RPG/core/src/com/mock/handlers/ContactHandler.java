@@ -2,11 +2,15 @@ package com.mock.handlers;
 
 import java.util.Stack;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.mock.states.TopDownState;
 
 import actions.TextAction;
 
@@ -28,14 +32,22 @@ public class ContactHandler implements ContactListener {
             playerBody = contact.getFixtureB().getBody();
             otherBody = contact.getFixtureA().getBody();
         }
-        // figure out where the userdata needs to be put
-        if (otherBody.getUserData().getClass().equals(TextAction.class)) {
-            textActions.push((TextAction) otherBody.getUserData());
-        }
-        if (otherBody.getUserData().getClass().equals(String.class)) {
-            zoneStrings.push(otherBody.getUserData().toString());
-        }
     }
+    
+    // --------------- RAY CAST CALLBACK INTERFACE ----------------
+    public RayCastCallback callback = new RayCastCallback() {
+        @Override
+        public float reportRayFixture(Fixture fixture, Vector2 point,
+                Vector2 normal, float fraction) {
+            if (fixture.getBody().getUserData().getClass().equals(TextAction.class)) {
+                textActions.push((TextAction) fixture.getBody().getUserData());
+            }
+            if (fixture.getBody().getUserData().getClass().equals(String.class)) {
+                zoneStrings.push(fixture.getBody().getUserData().toString());
+            }
+            return 0;
+        } 
+    };
 
     @Override
     public void endContact(Contact contact) {}
