@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mock.actions.TextAction;
 import com.mock.entities.Background;
 import com.mock.entities.Player;
 import com.mock.handlers.ContactHandler;
@@ -27,8 +28,6 @@ import com.mock.input.GameKeys;
 import com.mock.input.TouchInput;
 import com.mock.main.Game;
 import com.mock.main.GameStateManager;
-
-import actions.TextAction;
 
 public class TopDownState extends GameState {
     
@@ -82,12 +81,20 @@ public class TopDownState extends GameState {
         hudManager.update(dt);
         cam.zoom = Game.ZOOM;
         cam.update();
+        if (debug) { 
+            b2dCam.position.set(
+                cam.position.x / PPM,
+                cam.position.y / PPM,
+                0);
+            b2dCam.zoom = Game.ZOOM;
+            b2dCam.update(); 
+        }
         GameKeys.update();
         TouchInput.update();
     }
     
     public void render() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         sb.setProjectionMatrix(cam.combined);
 
@@ -95,7 +102,7 @@ public class TopDownState extends GameState {
         if (background != null) { background.render(sb); }
         tmh.renderTerrainLayer(sb, cam);
         player.render(sb);
-        tmh.renderCollisionLayer(sb, cam);
+        // tmh.renderCollisionLayer(sb, cam);
         tmh.renderTopLayer(sb, cam);
         hudManager.render();
         

@@ -10,9 +10,8 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.mock.actions.TextAction;
 import com.mock.states.TopDownState;
-
-import actions.TextAction;
 
 public class ContactHandler implements ContactListener {
 
