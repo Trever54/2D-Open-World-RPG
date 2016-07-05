@@ -15,6 +15,7 @@ public class Game extends ApplicationAdapter {
     public static float ZOOM = 1f;
     public static int V_WIDTH;
     public static int V_HEIGHT;
+    public static String FPS_TEXT;
     private float accum;
     private OrthographicCamera cam;
 	private SpriteBatch sb;
@@ -27,6 +28,7 @@ public class Game extends ApplicationAdapter {
 	    V_HEIGHT = Gdx.graphics.getHeight();
 	    Gdx.input.setInputProcessor(new GameInputProcessor());
 	    FPS = new FPSLogger();
+	    FPS_TEXT = "";
 		sb = new SpriteBatch();
 		cam = new OrthographicCamera(V_WIDTH / ZOOM, V_HEIGHT / ZOOM);
 		gsm = new GameStateManager(this);
@@ -35,6 +37,7 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void render() {
 	    FPS.log();
+	    FPS_TEXT = "FPS: ?";   // currently doesn't work
 	    accum += Gdx.graphics.getDeltaTime();
 	    while (accum >= STEP) {
 	        accum -= STEP;

@@ -16,6 +16,7 @@ public class HUDManager {
     private ZoomHUD zoomHUD;
     
     private TextHUD textHUD;
+    private FpsHUD fpsHUD;
     
     public HUDManager() {
         hudCam = new OrthographicCamera(Game.V_WIDTH, Game.V_HEIGHT);
@@ -25,6 +26,7 @@ public class HUDManager {
         actionHUD = new ActionHUD();
         zoomHUD = new ZoomHUD();
         textHUD = new TextHUD();
+        fpsHUD = new FpsHUD();
     }
     
     public void update(float dt) {
@@ -36,6 +38,7 @@ public class HUDManager {
         } else {
             textHUD.update(dt);
         }
+        fpsHUD.update(dt);
     }
     
     public void render() {
@@ -47,6 +50,7 @@ public class HUDManager {
         } else {
             textHUD.render(hudSB);
         }
+        fpsHUD.render(hudSB);
     }
     
     public void dispose() {
@@ -54,6 +58,7 @@ public class HUDManager {
         actionHUD.dispose();
         zoomHUD.dispose();
         textHUD.dispose();
+        fpsHUD.dispose();
     }
     
 }

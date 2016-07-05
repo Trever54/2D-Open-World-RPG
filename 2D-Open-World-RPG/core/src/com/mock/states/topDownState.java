@@ -4,6 +4,7 @@ import static com.mock.main.Game.BIT_SIZE;
 import static com.mock.utility.B2DVars.PPM;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -33,7 +34,7 @@ public class TopDownState extends GameState {
     
     public static boolean debug = false;
     
-    private Background background;
+    private Music backingMusic;
     
     public static boolean freezePlayer = false;
     public static boolean castRay = false;
@@ -65,12 +66,11 @@ public class TopDownState extends GameState {
         p2 = new Vector2();
         sr = new ShapeRenderer();
         sr.setColor(Color.BLUE);
-        background = null;
+        backingMusic = null;
     }
 
     public void update(float dt) {
         world.step(dt, 6, 2);
-        if (background != null) { background.update(dt); }
         if (castRay) { handleRayCasting(); }
         handleTextActions();
         if (!freezePlayer) { player.update(dt); }
@@ -94,12 +94,11 @@ public class TopDownState extends GameState {
     }
     
     public void render() {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0.4f, 0.7f, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         sb.setProjectionMatrix(cam.combined);
 
         // render objects
-        if (background != null) { background.render(sb); }
         tmh.renderTerrainLayer(sb, cam);
         player.render(sb);
         // tmh.renderCollisionLayer(sb, cam);
@@ -123,10 +122,10 @@ public class TopDownState extends GameState {
         hudManager.dispose();
         world.dispose();
         player.dispose();
-        if (background != null) { background.dispose(); }
         tmh.dispose();
         b2dr.dispose();
         sr.dispose();
+        if (backingMusic != null) { backingMusic.dispose(); }
     }
     
     private Player createPlayer() {
@@ -135,7 +134,7 @@ public class TopDownState extends GameState {
         PolygonShape shape = new PolygonShape();
         bdef.type = BodyType.DynamicBody;
         Body body = world.createBody(bdef);
-        shape.setAsBox((BIT_SIZE / 2) / PPM, (BIT_SIZE / 2) / PPM);
+        shape.setAsBox((BIT_SIZE / 3) / PPM, (BIT_SIZE / 3) / PPM); // change 3 to 2 for perfect bounding box
         fdef.shape = shape;
         body.createFixture(fdef);
         body.setUserData("player");
@@ -211,8 +210,10 @@ public class TopDownState extends GameState {
         body.setUserData(textAction);
     }
     
-    protected void setBackground(String path) {
-        background = new Background(path);
+    protected void setMusic(String path) {
+        backingMusic = Gdx.audio.newMusic(Gdx.files.internal(path));
+        backingMusic.setLooping(true);
+        backingMusic.play();
     }
       
 }

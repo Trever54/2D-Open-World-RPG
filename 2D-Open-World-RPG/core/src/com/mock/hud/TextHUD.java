@@ -18,6 +18,8 @@ public class TextHUD {
     public static Sprite textPanel;
     private BitmapFont font = new BitmapFont();
     
+    private String text;
+    
     public TextHUD() {
         this.textPanel = new Sprite(new Texture("HUD/text_panel.png"));
         this.textPanel.setPosition(0, 0);
@@ -25,7 +27,7 @@ public class TextHUD {
     }
     
     public void update(float dt) {
-        String text = ContactHandler.textActions.peek().getText();
+        text = ContactHandler.textActions.peek().getText();
         if (TouchInput.isPressed(textPanel) || GameKeys.isPressed(GameKeys.SPACE)) {
             ContactHandler.textActions.pop().dispose();
             TopDownState.freezePlayer = false;
@@ -36,7 +38,7 @@ public class TextHUD {
     public void render(SpriteBatch hudSB) {
         hudSB.begin();
         hudSB.draw(textPanel, textPanel.getX(), textPanel.getY(), textPanel.getWidth(), textPanel.getHeight());
-        font.draw(hudSB, "TEST", 20, PANEL_HEIGHT - 20, 50, 50, true);
+        font.draw(hudSB, text, 20, PANEL_HEIGHT - 20, 50, 50, true);
         hudSB.end();
     }
     

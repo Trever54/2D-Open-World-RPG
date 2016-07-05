@@ -8,10 +8,10 @@ public class TestZone extends TopDownState {
 
     public TestZone(GameStateManager gsm) {
         super(gsm, "testZone.tmx");
-        setBackground("night.png");
-        player.setPosition(new Vector2(128, 128));
+        // setMusic("track03.mp3");
+        player.setPosition(new Vector2(470, 160));
         
-        createChangeState(2, 0, "MAIN_WORLD");
+        createChangeState(7, 0, "MAIN_WORLD");
     }
       
 }

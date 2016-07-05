@@ -13,21 +13,18 @@ public class MainWorld extends TopDownState{
     
     public MainWorld(GameStateManager gsm) {
         super(gsm, "PracticeMap.tmx");
-        // setBackground("clouds.png");
-        player.setPosition(new Vector2(1800, 1800));    // 1800, 1800 for PracticeMap 
+        // setMusic("track01.mp3");
+        player.setPosition(new Vector2(2800, 1500));    // 1800, 1800 for PracticeMap 
         
-        // createTextAction(26, 24, new TextAction("TEST TEXT"));
+        createTextAction(42, 31, new TextAction("This is a big door!"));
+        createTextAction(43, 31, new TextAction("This is a big door!"));
+        createTextAction(44, 31, new TextAction("This is a big door!"));
+        createTextAction(45, 31, new TextAction("This is a big door!"));
+        createTextAction(46, 31, new TextAction("This is a big door!"));
+        createTextAction(47, 31, new TextAction("This is a big door!"));
         
-        // createChangeState(24, 24, "TEST_ZONE");
-          
-        /*
-        // MUSIC NEEDS TO BE IMPLEMENTED ON THE TOPDOWNSTATE LEVEL
-        music = Gdx.audio.newMusic(Gdx.files.internal("track01.mp3"));
-        music.setLooping(true);
-        music.play();
-        */
+        createChangeState(44, 25, "TEST_ZONE");
         
-        // set animations
-        // set actions   
+         
     }
 }
